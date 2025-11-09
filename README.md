@@ -5,6 +5,12 @@
 [![JSDocs][jsdocs-src]][jsdocs-href]
 [![License][license-src]][license-href]
 
+A CLI to Fetch Vsix Files from Visual Studio Marketplace.
+
+```sh
+npx vsix-downloader 'crosside-sync'
+```
+
 <p align='center'>
 <img src='./assets/help.png' />
 </p>
