@@ -1,7 +1,7 @@
 {
   "name": "vsix-downloader",
   "type": "module",
-  "version": "0.1.0",
+  "version": "0.1.1",
   "packageManager": "pnpm@10.20.0",
   "description": "A CLI to Fetch Vsix Files from Visual Studio Marketplace.",
   "author": "jinghaihan",
