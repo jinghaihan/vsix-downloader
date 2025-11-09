@@ -14,7 +14,13 @@
   "bugs": {
     "url": "https://github.com/jinghaihan/vsix-downloader/issues"
   },
-  "keywords": [],
+  "keywords": [
+    "vscode",
+    "marketplace",
+    "vsix",
+    "extension",
+    "download"
+  ],
   "exports": {
     ".": "./dist/index.mjs",
     "./cli": "./dist/cli.mjs",
