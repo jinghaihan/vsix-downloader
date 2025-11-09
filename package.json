@@ -1,0 +1,73 @@
+{
+  "name": "vsix-downloader",
+  "type": "module",
+  "version": "0.0.0",
+  "packageManager": "pnpm@10.20.0",
+  "description": "A CLI to Fetch Vsix Files from Visual Studio Marketplace.",
+  "author": "jinghaihan",
+  "license": "MIT",
+  "homepage": "https://github.com/jinghaihan/vsix-downloader#readme",
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/jinghaihan/vsix-downloader.git"
+  },
+  "bugs": {
+    "url": "https://github.com/jinghaihan/vsix-downloader/issues"
+  },
+  "keywords": [],
+  "exports": {
+    ".": "./dist/index.mjs",
+    "./cli": "./dist/cli.mjs",
+    "./package.json": "./package.json"
+  },
+  "main": "./dist/index.mjs",
+  "module": "./dist/index.mjs",
+  "types": "./dist/index.d.mts",
+  "bin": {
+    "vsix-downloader": "./bin/cli.mjs"
+  },
+  "files": [
+    "bin",
+    "dist"
+  ],
+  "scripts": {
+    "start": "tsx ./src/cli.ts",
+    "build": "tsdown",
+    "deps": "taze major -I",
+    "lint": "eslint",
+    "typecheck": "tsc --noEmit",
+    "test": "vitest",
+    "release": "bumpp",
+    "bootstrap": "pnpm install",
+    "prepare": "simple-git-hooks",
+    "prepublishOnly": "pnpm build"
+  },
+  "dependencies": {
+    "@clack/prompts": "catalog:node",
+    "ansis": "catalog:node",
+    "cac": "catalog:node",
+    "ofetch": "catalog:network",
+    "pathe": "catalog:node"
+  },
+  "devDependencies": {
+    "@antfu/eslint-config": "catalog:lint",
+    "@types/node": "catalog:types",
+    "@types/prompts": "catalog:types",
+    "bumpp": "catalog:cli",
+    "eslint": "catalog:lint",
+    "lint-staged": "catalog:lint",
+    "pncat": "catalog:cli",
+    "simple-git-hooks": "catalog:lint",
+    "taze": "catalog:cli",
+    "tsdown": "catalog:build",
+    "tsx": "catalog:script",
+    "typescript": "catalog:tsc",
+    "vitest": "catalog:test"
+  },
+  "simple-git-hooks": {
+    "pre-commit": "pnpm lint-staged"
+  },
+  "lint-staged": {
+    "*": "eslint --fix"
+  }
+}
