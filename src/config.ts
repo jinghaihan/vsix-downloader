@@ -54,20 +54,27 @@ export async function resolveConfig(name: string = '', options: Partial<CommandO
       }
     })
 
-    const result = await p.select({
-      message: 'select an extension',
-      options,
-    })
-
-    if (p.isCancel(result) || !result) {
-      p.outro(c.red('aborting'))
-      process.exit(1)
+    if (options.length === 1) {
+      const ext = options[0]
+      extract(ext.value)
+      p.log.info(`Using extension: ${c.yellow(ext.label)}`)
     }
-    extract(result)
+    else {
+      const result = await p.select({
+        message: 'select an extension',
+        options,
+      })
+
+      if (p.isCancel(result) || !result) {
+        p.outro(c.red('aborting'))
+        process.exit(1)
+      }
+      extract(result)
+    }
 
     // use the latest version
     if (merged.latest) {
-      const opt = options.find(i => i.value === result)
+      const opt = options.find(i => i.value === `${merged.publisher}.${merged.extension}`)
       merged.version = opt?.version
       merged.url = opt?.url
     }
@@ -97,20 +104,27 @@ async function promptVersion(publisher: string, extension: string) {
     return extractSource(versions.find(i => i.version === version)!)
   }
 
-  const version = await p.select({
-    message: 'select a version',
-    options: versions.map((i) => {
-      return {
-        label: i.version,
-        value: i.version,
-      }
-    }),
-    initialValue: getSource(versions[0].version),
-  })
-  if (p.isCancel(version) || !version) {
-    p.outro(c.red('aborting'))
-    process.exit(1)
+  if (versions.length === 1) {
+    const extVer = versions[0]
+    p.log.info(`Using version: ${c.yellow(extVer.version)}`)
+    return { version: extVer.version, url: getSource(extVer.version) }
   }
+  else {
+    const version = await p.select({
+      message: 'select a version',
+      options: versions.map((i) => {
+        return {
+          label: i.version,
+          value: i.version,
+        }
+      }),
+      initialValue: getSource(versions[0].version),
+    })
+    if (p.isCancel(version) || !version) {
+      p.outro(c.red('aborting'))
+      process.exit(1)
+    }
 
-  return { version, url: getSource(version) }
+    return { version, url: getSource(version) }
+  }
 }

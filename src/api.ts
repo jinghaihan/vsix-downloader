@@ -1,4 +1,4 @@
-import type { ExtensionQueryResponse, ExtensionVersion } from './types'
+import type { Extension, ExtensionQueryResponse, ExtensionVersion } from './types'
 import { Buffer } from 'node:buffer'
 import { writeFile } from 'node:fs/promises'
 import process from 'node:process'
@@ -7,7 +7,11 @@ import { resolve } from 'pathe'
 import { DEFAULT_OPTIONS, REQUEST_BODY, REQUEST_HEADERS, REQUEST_URL } from './constants'
 import { extractSource } from './utils'
 
-export async function searchExtensions(name: string, page: number = 1, pageSize: number = DEFAULT_OPTIONS.pageSize) {
+export async function searchExtensions(
+  name: string,
+  page: number = 1,
+  pageSize: number = DEFAULT_OPTIONS.pageSize,
+): Promise<Extension[]> {
   const response = await ofetch<ExtensionQueryResponse>(
     REQUEST_URL,
     {
@@ -60,7 +64,11 @@ export async function getExtensionVersion(publisher: string, extension: string):
   return response.results[0]?.extensions[0]?.versions ?? []
 }
 
-export async function downloadExtension(publisher: string, extension: string, cwd: string = process.cwd()) {
+export async function downloadExtension(
+  publisher: string,
+  extension: string,
+  cwd: string = process.cwd(),
+): Promise<void> {
   const response = await ofetch<ExtensionQueryResponse>(
     REQUEST_URL,
     {
